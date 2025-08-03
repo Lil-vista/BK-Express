@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel | TurkmenBridge</title>
+</head>
+<body>
+  <h1>Admin Panel – Täze Ýük Giriz</h1>
+  <form id="admin-form">
+    <input type="text" name="code" placeholder="Ýük kody" required />
+    <input type="text" name="status" placeholder="Status (meselem: Ýolda)" required />
+    <input type="text" name="location" placeholder="Ýerleşýän ýeri" required />
+    <input type="text" name="updated" placeholder="Täzelik wagty (YYYY-MM-DD HH:MM)" required />
+    <button type="submit">Ýük goş</button>
+  </form>
+  <div id="response"></div>
+
+  <script>
+    document.getElementById("admin-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      fetch("backend/add_shipment.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("response").innerHTML = "<p style='color:green;'>" + data + "</p>";
+        this.reset();
+      })
+      .catch(() => {
+        document.getElementById("response").innerHTML = "<p style='color:red;'>Säwlik ýüze çykdy.</p>";
+      });
+    });
+  </script>
+</body>
+</html>
