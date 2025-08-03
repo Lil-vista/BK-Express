@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Habarlaşmak | TurkmenBridge</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">🌉 TurkmenBridge</div>
+    <nav>
+      <ul>
+        <li><a href="index.html" data-i18n="home">Baş sahypa</a></li>
+        <li><a href="services.html" data-i18n="services">Hyzmatlar</a></li>
+        <li><a href="track.html" data-i18n="track">Ýük Yzarlama</a></li>
+        <li><a href="contact.html" data-i18n="contact">Habarlaşmak</a></li>
+      </ul>
+    </nav>
+    <select id="language-switcher">
+      <option value="tk">Türkmençe</option>
+      <option value="ru">Русский</option>
+      <option value="en">English</option>
+      <option value="zh">中文</option>
+    </select>
+  </header>
+
+  <main>
+    <section class="contact-section">
+      <h1 data-i18n="contact">Habarlaşmak</h1>
+      <p data-i18n="contact_intro">Soraglaryňyz ýa-da teklipleriňiz bar bolsa, aşakdaky formany dolduryň ýa-da bize göni ýüz tutuň.</p>
+
+      <div class="contact-info">
+        <p><strong data-i18n="phone">Telefon:</strong> +993 12 34 56 78</p>
+        <p><strong data-i18n="email">E-poçta:</strong> info@turkmenbridge.com</p>
+        <p><strong data-i18n="address">Adres:</strong> Aşgabat, Türkmenistan</p>
+      </div>
+
+      <form id="contact-form">
+        <input type="text" placeholder="Adyňyz" name="name" required />
+        <input type="email" placeholder="E-poçtaňyz" name="email" required />
+        <textarea placeholder="Hatyňyz" name="message" required></textarea>
+        <button type="submit" data-i18n="send">Ugrat</button>
+      </form>
+
+      <div id="form-response"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 TurkmenBridge. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById("contact-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      fetch("backend/contact.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("form-response").innerHTML = "<p style='color:green;'>Ugratdyňyz! Sag boluň.</p>";
+        this.reset();
+      })
+      .catch(() => {
+        document.getElementById("form-response").innerHTML = "<p style='color:red;'>Säwlik ýüze çykdy. Täzeden synanyşyň.</p>";
+      });
+    });
+  </script>
+</body>
+</html>

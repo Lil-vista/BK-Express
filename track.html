@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ýük Yzarlama | TurkmenBridge</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">🌉 TurkmenBridge</div>
+    <nav>
+      <ul>
+        <li><a href="index.html" data-i18n="home">Baş sahypa</a></li>
+        <li><a href="services.html" data-i18n="services">Hyzmatlar</a></li>
+        <li><a href="track.html" data-i18n="track">Ýük Yzarlama</a></li>
+        <li><a href="contact.html" data-i18n="contact">Habarlaşmak</a></li>
+      </ul>
+    </nav>
+    <select id="language-switcher">
+      <option value="tk">Türkmençe</option>
+      <option value="ru">Русский</option>
+      <option value="en">English</option>
+      <option value="zh">中文</option>
+    </select>
+  </header>
+
+  <main>
+    <section class="track-section">
+      <h1 data-i18n="track">Ýük Yzarlama</h1>
+      <p data-i18n="track_instruction">Ýük kodyňyzy giriziň:</p>
+      <input type="text" id="tracking-code" placeholder="Meselem: TRK123456" />
+      <button onclick="trackShipment()" data-i18n="track_button">Yzarla</button>
+      <div id="result"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 TurkmenBridge. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    function trackShipment() {
+      const code = document.getElementById("tracking-code").value.trim();
+      const resultDiv = document.getElementById("result");
+
+      if (!code) {
+        resultDiv.innerHTML = "<p style='color:red;'>Kody giriziň!</p>";
+        return;
+      }
+
+      // Simulýasiýa üçin: real serwer bilen baglanyşyk ýerine
+      fetch(`backend/track.php?code=${code}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.found) {
+            resultDiv.innerHTML = `
+              <h3>Ýük Maglumatlary:</h3>
+              <p><strong>Status:</strong> ${data.status}</p>
+              <p><strong>Ýerleşýän ýeri:</strong> ${data.location}</p>
+              <p><strong>Soňky täzelik:</strong> ${data.updated}</p>
+            `;
+          } else {
+            resultDiv.innerHTML = "<p style='color:red;'>Ýük tapylmady!</p>";
+          }
+        })
+        .catch(error => {
+          resultDiv.innerHTML = "<p style='color:red;'>Serwer bilen baglanyşykda säwlik ýüze çykdy.</p>";
+        });
+    }
+  </script>
+</body>
+</html>
